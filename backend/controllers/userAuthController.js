@@ -23,7 +23,7 @@ module.exports.registerUser = async (req, res) => {
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: true,
-                    sameSite: "lax", // important for cross-origin cookies
+                    sameSite: "none", // important for cross-origin cookies
                     maxAge: 5 * 24 * 60 * 60 * 1000
                 });
 
@@ -55,8 +55,8 @@ module.exports.loginUser = async (req, res) => {
                     let token = generateToken(user);
                     res.cookie("token", token, {
                         httpOnly: true,
-                        secure: false, // true in production with HTTPS
-                        sameSite: "lax", // important for cross-origin cookies
+                        secure: true, // true in production with HTTPS
+                        sameSite: "none", // important for cross-origin cookies
                         maxAge: 5 * 24 * 60 * 60 * 1000
                     });
                     res.status(200).json({
@@ -76,6 +76,10 @@ module.exports.loginUser = async (req, res) => {
 
 module.exports.logoutUser = (req, res) => {
 
-    res.clearCookie("token",);
+   res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None"
+});
     res.status(200).json({ success: true, message: "Logged out successfully" });
 }
