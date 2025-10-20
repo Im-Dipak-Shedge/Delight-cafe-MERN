@@ -21,11 +21,11 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-app.use("/api/users", usersRouter);
-app.use("/api/menu", menuRouter);
-app.use("/api/cart", cartRouter);
-app.use("/api/orders", orderRouter);
-app.use("/api/payment", paymentRouter);
+app.use("/users", usersRouter);
+app.use("/menu", menuRouter);
+app.use("/cart", cartRouter);
+app.use("/orders", orderRouter);
+app.use("/payment", paymentRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);
