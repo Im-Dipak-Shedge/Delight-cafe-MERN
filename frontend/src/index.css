@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+body {
+    font-family: 'Outfit', sans-serif;
+    @apply bg-[#FCFAF4];
+
+}
+
+
+
+.active hr {
+    display: block;
+}
+
+.HamburgerList .active {
+    background-color: black;
+    color: white;
+}
+
+.outfit {
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.prata-regular {
+    font-family: "Prata", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+li {
+    list-style: none;
+}
+
+/* in globals.css */
+.parent:has(.child:hover) {
+    @apply scale-105 cursor-pointer;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+html,
+body {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
