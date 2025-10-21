@@ -66,16 +66,6 @@ const BestSellers = () => {
       currency: "INR",
     }).format(amount);
 
-  if (loading) {
-    return <p className="text-center text-gray-500 mt-5">Loading ...</p>;
-  }
-
-  if (products.length === 0) {
-    return (
-      <p className="text-center text-gray-500 mt-5">No best-sellers found.</p>
-    );
-  }
-
   return (
     <section className="py-16 px-4 sm:mt-28 mt-[70%]  md:px-10">
       <div className="max-w-6xl p-5 mx-auto">
@@ -90,99 +80,110 @@ const BestSellers = () => {
           </button>
         </div>
 
-        {/* Carousel */}
-        <div className="relative overflow-hidden">
-          <div
-            className="flex py-3 transition-transform duration-500"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {slides.map((slide, index) => (
-              <div key={index} className="flex gap-4 flex-shrink-0 w-full">
-                {slide.map((item) => {
-                  const isInCart = cartItems.some(
-                    (cartItem) => cartItem?.product?._id === item._id
-                  );
-                  return (
-                    <div
-                      key={item._id}
-                      className="bg-white rounded-2xl shadow-lg overflow-hidden flex-1 group flex flex-col"
-                    >
-                      <div className="relative">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute top-3 left-3 bg-[#4b2e05] text-white text-xs px-3 py-1 rounded-full">
-                          Bestseller
+        {/* Conditional Rendering */}
+        {loading ? (
+          <p className="text-center text-gray-500 mt-5">Loading ...</p>
+        ) : products.length === 0 ? (
+          <p className="text-center text-gray-500 mt-5">
+            No best-sellers found.
+          </p>
+        ) : (
+          <>
+            {/* Carousel */}
+            <div className="relative overflow-hidden">
+              <div
+                className="flex py-3 transition-transform duration-500"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {slides.map((slide, index) => (
+                  <div key={index} className="flex gap-4 flex-shrink-0 w-full">
+                    {slide.map((item) => {
+                      const isInCart = cartItems.some(
+                        (cartItem) => cartItem?.product?._id === item._id
+                      );
+                      return (
+                        <div
+                          key={item._id}
+                          className="bg-white rounded-2xl shadow-lg overflow-hidden flex-1 group flex flex-col"
+                        >
+                          <div className="relative">
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            <div className="absolute top-3 left-3 bg-[#4b2e05] text-white text-xs px-3 py-1 rounded-full">
+                              Bestseller
+                            </div>
+                          </div>
+                          <div className="p-5 flex flex-col justify-between flex-1">
+                            <div>
+                              <h3 className="text-xl font-semibold text-[#4b2e05]">
+                                {item.name}
+                              </h3>
+                              <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                                {item.description}
+                              </p>
+                            </div>
+                            <div className="mt-4 flex items-center justify-between">
+                              <span className="font-bold text-[#8b5e34] text-lg">
+                                {formatPrice(item.price)}
+                              </span>
+                              <button
+                                onClick={() => addToCart(item)}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition duration-300 shadow-sm ${
+                                  isInCart
+                                    ? "bg-[#8a6d60] text-white cursor-not-allowed"
+                                    : "bg-[#5C4033] text-white cursor-pointer hover:bg-[#715548] shadow-md"
+                                }`}
+                                disabled={isInCart}
+                              >
+                                {isInCart ? "Item Added" : "Add to Cart"}
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="p-5 flex flex-col justify-between flex-1">
-                        <div>
-                          <h3 className="text-xl font-semibold text-[#4b2e05]">
-                            {item.name}
-                          </h3>
-                          <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                            {item.description}
-                          </p>
-                        </div>
-                        <div className="mt-4 flex items-center justify-between">
-                          <span className="font-bold text-[#8b5e34] text-lg">
-                            {formatPrice(item.price)}
-                          </span>
-                          <button
-                            onClick={() => addToCart(item)}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition duration-300 shadow-sm ${
-                              isInCart
-                                ? "bg-[#8a6d60] text-white cursor-not-allowed"
-                                : "bg-[#5C4033] text-white cursor-pointer hover:bg-[#715548] shadow-md"
-                            }`}
-                            disabled={isInCart}
-                          >
-                            {isInCart ? "Item Added" : "Add to Cart"}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Navigation */}
-          {totalSlides > 1 && (
-            <>
-              <button
-                onClick={handlePrev}
-                disabled={currentSlide === 0}
-                className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#4b2e05] text-white p-3 rounded-full hover:bg-[#6f3d08] disabled:opacity-50"
-              >
-                <FaArrowLeft />
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={currentSlide === totalSlides - 1}
-                className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#4b2e05] text-white p-3 rounded-full hover:bg-[#6f3d08] disabled:opacity-50"
-              >
-                <FaArrowRight />
-              </button>
-            </>
-          )}
-        </div>
+              {/* Navigation */}
+              {totalSlides > 1 && (
+                <>
+                  <button
+                    onClick={handlePrev}
+                    disabled={currentSlide === 0}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#4b2e05] text-white p-3 rounded-full hover:bg-[#6f3d08] disabled:opacity-50"
+                  >
+                    <FaArrowLeft />
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    disabled={currentSlide === totalSlides - 1}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#4b2e05] text-white p-3 rounded-full hover:bg-[#6f3d08] disabled:opacity-50"
+                  >
+                    <FaArrowRight />
+                  </button>
+                </>
+              )}
+            </div>
 
-        {/* Pagination */}
-        <div className="flex justify-center gap-2 mt-6">
-          {slides.map((_, index) => (
-            <span
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`h-1 w-8 rounded-full cursor-pointer ${
-                currentSlide === index ? "bg-[#4b2e05]" : "bg-gray-300"
-              }`}
-            />
-          ))}
-        </div>
+            {/* Pagination */}
+            <div className="flex justify-center gap-2 mt-6">
+              {slides.map((_, index) => (
+                <span
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`h-1 w-8 rounded-full cursor-pointer ${
+                    currentSlide === index ? "bg-[#4b2e05]" : "bg-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
