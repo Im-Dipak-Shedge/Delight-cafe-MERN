@@ -18,6 +18,11 @@ const Loader = () => {
 };
 
 const StyledWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+
   .loader {
     width: 100px;
     height: 100px;
@@ -30,8 +35,8 @@ const StyledWrapper = styled.div`
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
-    height: 30px;
+    width: 45px;
+    height: 35px;
     background-color: #5b4022cb;
     border: 1px solid #2e2e2e;
     border-radius: 3px 3px 10px 10px;
@@ -146,7 +151,6 @@ const StyledWrapper = styled.div`
     }
   }
 
-  /* New Animations */
   @keyframes cupPulse {
     0%,
     100% {
@@ -164,6 +168,49 @@ const StyledWrapper = styled.div`
     }
     50% {
       background: #fed197d5;
+    }
+  }
+
+  /* 🌟 Make it bigger for PC screens */
+  @media (min-width: 768px) {
+    .loader {
+      width: 180px;
+      height: 180px;
+    }
+
+    .cup {
+      width: 70px;
+      height: 55px;
+      bottom: 30px;
+      border-radius: 5px 5px 18px 18px;
+    }
+
+    .cup::before {
+      height: 10px;
+      bottom: -8px;
+    }
+
+    .cup::after {
+      height: 6px;
+      top: -4px;
+    }
+
+    .cup-handle {
+      top: 10px;
+      right: -18px;
+      width: 18px;
+      height: 25px;
+      border-radius: 0 20px 20px 0;
+    }
+
+    .smoke {
+      width: 16px;
+      height: 40px;
+      filter: blur(10px);
+    }
+
+    .load {
+      font-size: 16px;
     }
   }
 `;

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCart } from "../contexts/cartContext";
+import Loader from "../components/Loader";
 
 export default function MenuPage() {
   const [menuItems, setMenuItems] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const categories = ["All", "Drinks", "Food", "Desserts"];
   const { addToCart, cartItems } = useCart();
@@ -18,13 +21,20 @@ export default function MenuPage() {
 
   // Fetch menu items from backend
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/menu`)
-      .then((res) => {
-        // Remove any null items just in case
-        setMenuItems(Array.isArray(res.data) ? res.data.filter(Boolean) : []);
-      })
-      .catch((err) => console.error("Error fetching menu items:", err));
+    const fetchMenu = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/menu`, {
+          withCredentials: true,
+        });
+        setMenuItems(Array.isArray(res.data.menu) ? res.data.menu : []);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch menu. Please try again later.");
+      } finally {
+        setLoading(false); // ✅ hide loader
+      }
+    };
+    fetchMenu();
   }, []);
 
   // Filter by category + search
@@ -37,6 +47,12 @@ export default function MenuPage() {
     return matchesCategory && matchesSearch;
   });
 
+  if (loading) {
+    return <Loader />;
+  }
+  if (error) {
+    return <p className="text-center mt-10">Something went wrong. </p>;
+  }
   if (menuItems.length === 0)
     return <p className="text-center mt-10">No menu items available.</p>;
 

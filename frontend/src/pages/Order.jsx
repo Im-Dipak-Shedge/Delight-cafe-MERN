@@ -129,7 +129,6 @@ export default function Orders() {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          // "http://localhost:3000/orders/my-orders",
           `${import.meta.env.VITE_API_URL}/orders/my-orders`,
           {
             withCredentials: true,
