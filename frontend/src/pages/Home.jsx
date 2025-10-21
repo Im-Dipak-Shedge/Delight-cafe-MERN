@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { assets } from "../assets/assets";
 import { motion, AnimatePresence } from "framer-motion";
 import About from "./About";
@@ -13,6 +13,7 @@ import axios from "axios";
 
 const Home = () => {
   const navigate = useNavigate();
+  const bestsellersRef = useRef(null);
   const features = [
     {
       title: "Fresh Goodness",
@@ -35,6 +36,34 @@ const Home = () => {
       icon: <RiCake3Line />,
     },
   ];
+
+  const scrollToBestSellers = () => {
+    if (!bestsellersRef.current) return;
+
+    const targetY =
+      bestsellersRef.current.getBoundingClientRect().top + window.scrollY;
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const duration = 1000; // 1 second smooth animation
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const animateScroll = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY + distance * ease);
+
+      if (elapsed < duration) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
 
   return (
     <div className="bg-[#FCFAF4] sm:pt-0 pt-20 ">
@@ -86,31 +115,7 @@ const Home = () => {
       {/* scrolldown button */}
       <div
         className="absolute sm:-bottom-1 sm:left-1/4 bottom-5 right-1/11 cursor-pointer"
-        onClick={() => {
-          const startY = window.scrollY; // where we are now
-          const targetY = startY + window.innerHeight; // one screen down
-          const duration = 1000; // 1 second
-          const startTime = performance.now();
-
-          const animateScroll = (currentTime) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            // easeInOutCubic for smooth effect
-            const ease =
-              progress < 0.5
-                ? 4 * progress * progress * progress
-                : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-            window.scrollTo(0, startY + (targetY - startY) * ease);
-
-            if (elapsed < duration) {
-              requestAnimationFrame(animateScroll);
-            }
-          };
-
-          requestAnimationFrame(animateScroll);
-        }}
+        onClick={scrollToBestSellers}
       >
         <div className="parent relative h-30 w-30 sm:w-48 sm:h-48 flex items-center justify-center">
           {/* Circular Text */}
@@ -141,7 +146,9 @@ const Home = () => {
       </div>
 
       {/* ----------------- Bestseller Component ---------------- */}
-      <BestSellers />
+      <div ref={bestsellersRef}>
+        <BestSellers />
+      </div>
 
       {/* ----------------- Features Section ---------------- */}
       <section className="bg-gray-50 py-16 px-6">
