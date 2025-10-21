@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
         {" "}
         <Spinner className="h-12 w-12 text-[#4b2e05]" />
       </div>
-    ); // Or spinner
+    );
   }
 
   if (!user) {

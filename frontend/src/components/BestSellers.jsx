@@ -11,6 +11,7 @@ const BestSellers = () => {
   const [products, setProducts] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [itemsPerSlide, setItemsPerSlide] = useState(3);
+  const [loading, setLoading] = useState(true);
 
   // Adjust items per slide based on screen width
   useEffect(() => {
@@ -32,12 +33,15 @@ const BestSellers = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true); // start loading
         const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/menu/best-sellers`
         );
         if (res.data.success) setProducts(res.data.items);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false); // stop loading
       }
     };
     fetchProducts();
@@ -61,6 +65,16 @@ const BestSellers = () => {
       style: "currency",
       currency: "INR",
     }).format(amount);
+
+  if (loading) {
+    return <p className="text-center text-gray-500 mt-5">Loading ...</p>;
+  }
+
+  if (products.length === 0) {
+    return (
+      <p className="text-center text-gray-500 mt-5">No best-sellers found.</p>
+    );
+  }
 
   return (
     <section className="py-16 px-4 sm:mt-28 mt-[70%]  md:px-10">
