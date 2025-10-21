@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "../components/Loader";
 
 const statusStyles = {
   Paid: "bg-blue-100 text-blue-700",
@@ -148,7 +149,7 @@ export default function Orders() {
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen text-gray-500 text-sm sm:text-base">
-        Loading Orders...
+        <Loader />
       </div>
     );
   if (error)

@@ -63,7 +63,7 @@ const BestSellers = () => {
     }).format(amount);
 
   return (
-    <section className="py-16 px-4 sm:mt-32 mt-[70%]  md:px-10">
+    <section className="py-16 px-4 sm:mt-28 mt-[70%]  md:px-10">
       <div className="max-w-6xl p-5 mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-10">
