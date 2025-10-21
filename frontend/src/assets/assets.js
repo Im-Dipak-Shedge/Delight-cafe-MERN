@@ -24,5 +24,4 @@ export const assets = {
     footerlogo,
     bglogin,
     Defaultupload
-
 }
