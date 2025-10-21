@@ -1,4 +1,4 @@
-import hero_img from "./heroimg.png";
+import hero_img from "./heroimg.webp";
 import logo from "./logo.png";
 import cart from "./cart_icon.png"
 import dropdown_icon from "./dropdown_icon.png"
@@ -6,9 +6,8 @@ import profile_icon from "./profile_icon.png"
 import search_icon from "./search_icon.png"
 import hamburger from './hamburger.png'
 import scrolldown from './scrolldown.png'
-import coffeecup from './coffeecup.png'
-import footerlogo from './footerlogo.png'
-import bgseller from './bg-seller.png'
+import coffeecup from './coffeecup.webp'
+import footerlogo from './footerlogo.webp'
 import bglogin from './loginbranding.jpeg'
 import Defaultupload from './Defaultupload.webp'
 
@@ -23,7 +22,6 @@ export const assets = {
     scrolldown,
     coffeecup,
     footerlogo,
-    bgseller,
     bglogin,
     Defaultupload
 
