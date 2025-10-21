@@ -26,7 +26,8 @@ export default function MenuPage() {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/menu`, {
           withCredentials: true,
         });
-        setMenuItems(Array.isArray(res.data.menu) ? res.data.menu : []);
+        // setMenuItems(Array.isArray(res.data.items) ? res.data.items : []);
+        setMenuItems(Array.isArray(res.data) ? res.data.filter(Boolean) : []);
       } catch (err) {
         console.error(err);
         setError("Failed to fetch menu. Please try again later.");
