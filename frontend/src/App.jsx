@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import AdminLogin from "./adminui/AdminLogin";
 import Admin from "./adminui/Admin";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   const location = useLocation();
@@ -44,6 +45,8 @@ const App = () => {
         />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<Admin />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {!hideLayout && <Footer />}

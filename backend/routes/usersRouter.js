@@ -7,7 +7,7 @@ const userModel = require('../models/user-model');
 const { registerUser, loginUser, logoutUser } = require('../controllers/userAuthController');
 
 router.get("/", (req, res) => {
-    res.send("hey its a users Router");
+
 })
 
 router.post('/register', registerUser);
